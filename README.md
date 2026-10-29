@@ -80,7 +80,18 @@ python3 -m http.server 8080
 
 Open http://localhost:8080/ to play the source or http://localhost:8080/dist/ to inspect the packaged build. Use HTTP/HTTPS, not file URLs, because the game uses ES modules.
 
-**GitHub Pages:** the repository root includes index.html and .nojekyll, so it can deploy directly from **main / (root)**. The build also creates a self-contained dist/ artifact for other static hosts. No new Actions workflow is required or included. The play link becomes available once this implementation reaches the branch configured for Pages.
+### Deploy manually to GitHub Pages
+
+The [Deploy PULL to GitHub Pages workflow](.github/workflows/deploy-pages.yml) runs only when you request it. It checks out the selected `main` commit, runs the tests and asset checks with Node.js 24, builds `dist/`, and deploys that artifact after the checks pass. It uses GitHub's built-in token; no personal access token or repository secret is needed. Concurrent deployments are serialized.
+
+1. Merge the workflow into `main`. GitHub requires the workflow file on the default branch before the **Run workflow** button is available.
+2. Open [Settings → Pages](https://github.com/QSOLKCB/PULL/settings/pages). Under **Build and deployment**, set **Source** to **GitHub Actions**. This is a one-time repository setting.
+3. Open [Actions → Deploy PULL to GitHub Pages](https://github.com/QSOLKCB/PULL/actions/workflows/deploy-pages.yml), click **Run workflow**, select **main**, and confirm **Run workflow**. Other branches are skipped.
+4. Wait for **Check and build** and **Deploy to Pages** to succeed, then open [https://qsolkcb.github.io/PULL/](https://qsolkcb.github.io/PULL/). The deployment job also displays the published URL.
+
+If the site shows a 404, use the full `/PULL/` address: `https://qsolkcb.github.io/` is a separate account site. Confirm the Pages source is **GitHub Actions** and the latest manual deployment succeeded. If the run button is missing, confirm this workflow has been merged into `main`. If deployment reports an environment protection error, check that the `github-pages` environment allows `main` and approve any required deployment review.
+
+The source root remains directly playable, and `npm run build` creates a self-contained `dist/` folder for other static hosts. Deployment does not run automatically on pushes or pull requests.
 
 The automated suite covers barrel ordering, reload duration/accounting, trigger buffering/cancellation, pellet occlusion, multi-clay scoring, relaunch conservation, exact doubling above 32-bit integers, six complete played rounds, seeded replay, bounded large-round simulation, controller guards, cache isolation, weapon visibility and sight alignment. The benchmark reports simulation timing, not browser rendering FPS.
 
