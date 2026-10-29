@@ -1,0 +1,20 @@
+PULL
+Copyright 2026 QSOL-IMC / Trent Slade and contributors.
+
+PULL uses QSOLKCB/QUICKSCOPER as its repository donor:
+https://github.com/QSOLKCB/QUICKSCOPER
+Donor baseline: 7c406e2545d82ee6bdc5fda5f198eb22fa183a84 (v0.2.0 era).
+QUICKSCOPER is distributed under the Apache License, Version 2.0.
+Its LICENSE is retained unchanged in this repository and the playable build.
+
+Reused or adapted material includes the column-major math helpers, seeded
+random generator, WebGL mesh/shader/buffer infrastructure, standard Xbox
+input handling, Web Audio synthesis and music scheduling, static build/check
+scripts, scope-isolated service worker, and offline regression harness.
+
+Modifications for PULL: original clay range, shotgun and hinged reload model,
+pellet tracing, doubling rounds, reload-sensitive scoring, menus/HUD,
+procedural sound cues/music arrangement, tests and documentation.
+
+No proprietary game assets, weapon brands, downloaded sound recordings,
+external textures, or third-party runtime packages are used.

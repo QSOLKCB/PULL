@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#183d32">
+  <meta name="description" content="Two barrels. One clean round. An original first-person clay shooting game by QSOL-IMC. Play in your browser, online or offline.">
+  <title>PULL — Two barrels. One clean round.</title>
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <canvas id="game" aria-label="The Long Meadow clay shooting range"></canvas>
+  <canvas id="effects" aria-hidden="true"></canvas>
+  <div id="shade" aria-hidden="true"></div>
+  <div id="error" role="alert" hidden></div>
+  <main id="menu" class="screen menu">
+    <header class="brand"><span class="clay-logo" aria-hidden="true"></span> QSOL–IMC <span class="brand-divider">/</span> FIELD SPORTS DIVISION</header>
+    <div class="menu-copy">
+      <div class="eyebrow"><span class="status-dot"></span> THE LONG MEADOW · OPEN RANGE</div>
+      <h1>PULL<span>!</span></h1>
+      <h2>TWO BARRELS.<br>ONE CLEAN ROUND.</h2>
+      <p class="lede">Find your line. Break the clay. Keep the rhythm.<br>Every round doubles the targets.<br>Every reload costs you.</p>
+      <div class="start-row"><button id="start" class="primary">STEP UP TO THE LINE <span>↗</span></button><button id="help-open" class="icon-button" aria-label="How to play">?</button></div>
+      <div class="profile-row"><label for="profile">PLAY WITH</label><select id="profile"><option value="mouse">Keyboard + mouse</option><option value="xbox">Xbox controller</option></select></div>
+      <div class="menu-links"><button id="settings-open">RANGE SETTINGS</button><span>·</span><span id="best">PERSONAL BEST —</span></div>
+    </div>
+    <aside class="range-note"><div class="note-rule"></div><span>YOUR KIT</span><strong>O/U–02</strong><p>OVER–UNDER SHOTGUN<br>2 SHELLS · FAST BREAK ACTION</p><div class="round-sequence"><b>1</b><i>→</i><b>2</b><i>→</i><b>4</b><i>→</i><b>8</b><i>→</i><b>…</b></div><small>ONE MORE ROUND?</small></aside>
+    <footer><span>PULL <b>v0.1.0</b></span><span id="offline">LOCAL GEOMETRY · ORIGINAL SOUND</span><a href="https://github.com/QSOLKCB/PULL" target="_blank" rel="noopener">OPEN SOURCE ↗</a></footer>
+  </main>
+  <section id="hud" hidden aria-label="Game status">
+    <div class="hud-top"><div><div class="eyebrow">THE LONG MEADOW</div><strong id="round-label">ROUND 01</strong><span id="goal-label">1 CLAY TO CLEAR</span></div><div class="score-block"><small>TOTAL SCORE</small><strong id="score">000000</strong><span id="live-cost">RELOADS 0 · −0 PTS</span></div></div>
+    <div id="callout" role="status"><strong></strong><small></small></div>
+    <div id="pull-prompt"><span class="eyebrow">THE RANGE IS YOURS</span><strong>CALL YOUR CLAYS.</strong><p id="pull-instruction">Press SPACE or click to call PULL</p><small>Two shells loaded. Make them count.</small></div>
+    <div id="reticle"><i></i></div><div id="hitmarker" hidden>×</div>
+    <div class="hud-bottom"><div class="progress-block"><div><strong id="progress-label">0 / 1</strong><span>CLAYS BROKEN</span></div><div class="progress-track"><div id="progress-bar"></div></div><small id="flight-label">WAITING FOR YOUR CALL</small></div><div class="ammo-block"><div class="ammo-top"><span>O/U–02</span><span id="ammo-count">2 / 2</span><div class="shell-pair"><i id="shell-1"></i><i id="shell-0"></i></div></div><strong id="weapon-status">BOTH BARRELS READY</strong><div class="reload-track"><div id="reload-bar"></div></div><small id="controls">LMB FIRE · RMB AIM · R RELOAD · ESC PAUSE</small></div></div>
+    <button id="pause-button" aria-label="Pause game">Ⅱ</button>
+  </section>
+  <section id="pause" class="screen centered" hidden><div class="panel">
+    <span class="eyebrow">TAKE A BREATHER</span><h2>RANGE PAUSED.</h2><p>The clays can wait.</p>
+    <button id="resume" class="primary">BACK TO THE LINE <span>↗</span></button>
+    <p id="lock-message" role="status"></p>
+    <div class="button-row"><button id="pause-settings">SETTINGS</button><button id="restart">NEW RUN</button><button id="quit">MAIN MENU</button></div>
+  </div></section>
+  <section id="results" class="screen centered" hidden><div class="panel results-panel">
+    <span class="eyebrow" id="clear-label">ROUND 01 COMPLETE</span><h2 id="result-title">CLEAN BREAK.</h2>
+    <div class="round-total"><span>ROUND SCORE</span><strong id="round-score">350</strong></div>
+    <dl id="scorecard"></dl>
+    <div class="run-total"><span>RUN TOTAL</span><strong id="run-score">350</strong></div>
+    <p id="next-description">Next up: 2 clays. Two fresh shells.</p>
+    <button id="next" class="primary">NEXT ROUND <span>↗</span></button>
+    <div class="button-row"><button id="results-restart">NEW RUN</button><button id="results-menu">MAIN MENU</button></div>
+  </div></section>
+  <dialog id="settings"><form method="dialog"><header><h2>RANGE SETTINGS</h2><button class="close" aria-label="Close settings">×</button></header></form>
+    <label>Control profile<select id="settings-profile"><option value="mouse">Keyboard + mouse</option><option value="xbox">Xbox controller</option></select></label>
+    <label>Mouse sensitivity <output id="sensitivity-output"></output><input id="sensitivity" type="range" min="0.3" max="2.5" step="0.05"></label>
+    <label>Controller look speed <output id="padSensitivity-output"></output><input id="padSensitivity" type="range" min="0.3" max="2.5" step="0.05"></label>
+    <label>Stick deadzone <output id="deadzone-output"></output><input id="deadzone" type="range" min="0.05" max="0.35" step="0.01"></label>
+    <label>Master volume <output id="volume-output"></output><input id="volume" type="range" min="0" max="1" step="0.05"></label>
+    <label>Procedural music <output id="musicVolume-output"></output><input id="musicVolume" type="range" min="0" max="1" step="0.05"></label>
+    <label class="check"><input id="invert" type="checkbox">Invert vertical look</label><label class="check"><input id="reduced" type="checkbox">Reduce motion, flashes and fragments</label><label class="check"><input id="lowQuality" type="checkbox">Lower resolution and fewer fragments</label>
+    <p id="controller-status" class="fine">Connect a standard Xbox controller, then press a button.</p>
+  </dialog>
+  <dialog id="help"><form method="dialog"><header><h2>THE SHORT VERSION.</h2><button class="close" aria-label="Close help">×</button></header></form>
+    <p>Start with <b>one clay</b>. Clear it and the next round doubles: <b>2, 4, 8, 16…</b> Larger rounds launch in volleys. Escaped clays return until you break them all.</p>
+    <table><tr><th>Action</th><th>Mouse / keys</th><th>Xbox</th></tr><tr><td>Look</td><td>Mouse</td><td>Right stick</td></tr><tr><td>Call PULL</td><td>Space / LMB</td><td>A / RT</td></tr><tr><td>Fire</td><td>LMB</td><td>RT</td></tr><tr><td>Hold aim</td><td>RMB</td><td>LT</td></tr><tr><td>Reload</td><td>R</td><td>X</td></tr><tr><td>Pause</td><td>Esc / P</td><td>Menu</td></tr></table>
+    <p><b>100 points</b> per clay. <b>+40</b> for each extra clay broken with one shot. <b>+250</b> for clearing a round. Each reload costs <b>35</b>; each escaped clay costs <b>15</b>. Round scores bottom out at zero.</p>
+    <p>Two trigger presses, two barrels. Empty chambers reload automatically in <b>0.94 seconds</b>. R tops up early and costs the same. Each round starts with two free shells. Your firing position is fixed.</p>
+    <p class="fine">Desktop mouse or standard gamepad required; no touch controls. Controller menus: D-pad to navigate, A to select, B to close. Audio starts after a click. M mutes. Losing focus pauses play.</p>
+  </dialog>
+  <noscript>This game needs JavaScript enabled.</noscript>
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>
