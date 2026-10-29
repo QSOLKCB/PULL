@@ -1,0 +1,16 @@
+{
+  "name": "pull",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "PULL — a zero-dependency first-person clay shooting game",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "check": "node scripts/check.mjs",
+    "build": "node scripts/build.mjs",
+    "benchmark": "node scripts/benchmark.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
