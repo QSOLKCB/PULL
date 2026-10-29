@@ -1,5 +1,11 @@
 # Validation — 30 October 2026
 
+## Fence occlusion follow-up
+
+All perimeter fence posts and both rails now use their rendered box bounds as pellet-blocking solids. Four added regressions cover every fence surface, full shots blocked on both sides, unobstructed gaps/above-post shots, and the naturally launched round-20 seed-1 clay 17 reported in review. The three blocking tests failed before the fix; all four pass with the fence registered.
+
+The current source passed the full native Node suite: **34 passed, 0 failed**, plus npm run check, npm run build and npm run benchmark. The benchmark again held the eight-clay cap through 600 simulated seconds at round 43. The offline revision is v0.1.0-3. This follow-up verifies collision in the simulation; the live-GPU limitations below still apply.
+
 ## Completed checks
 
 - Node.js 24.22.1: npm test — **30 passed, 0 failed**.

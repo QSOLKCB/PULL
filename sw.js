@@ -1,5 +1,5 @@
 // Increment this revision whenever any cached runtime file changes.
-const REVISION='v0.1.0-2';
+const REVISION='v0.1.0-3';
 // Scope-specific prefix prevents interference with other games on the same Pages origin.
 const PREFIX=`pull:${self.registration.scope}:`;
 const CACHE=PREFIX+REVISION;
